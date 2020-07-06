@@ -1,0 +1,80 @@
+<!--definido largura e altura do video e controls mostra os controles -->
+<video
+  id="meuVideo"
+  width="800"
+  height="450"
+  controls
+  autoplay
+  controlsList="nodownload"
+>
+  <source
+    src="http://files.cod3r.com.br/curso-web/video.mp4"
+    type="video/mp4"
+  />
+  Seu browser não suporta a tag de vídeo.
+</video>
+
+<div wm-progresso="meuVideo" class="progresso">
+  <div></div>
+</div>
+
+<div>
+  <button wm-play="meuVideo" onclick="playVid()">Play</button>
+  <button wm-pause="meuVideo" onclick="pauseVid()">Pause</button>
+</div>
+
+<style>
+  .progresso {
+    height: 20px;
+    width: 500px;
+    border: solid 4px #444;
+    margin: 20px;
+  }
+
+  .progresso > div {
+    background-color: red;
+    color: #fff;
+    height: 100%;
+    text-align: right;
+    font-size: 14px;
+    width: 0%;
+  }
+</style>
+
+<!-- <script>
+  var vid = document.getElementById("meuVideo");
+
+  function playVid() {
+    vid.play();
+  }
+
+  function pauseVid() {
+    vid.pause();
+  }
+</script> -->
+
+<script>
+  function configurarVideo(id) {
+    const video = document.getElementById(id);
+    //para ocultar o click do botao direito
+    video.oncontextmenu = () => false;
+    //seleciono o botao com o atributo e id chamo a function onclick ativa o evento de selecionar o video e dar play
+    document.querySelector(`[wm-play=${id}]`).onclick = (e) => video.play();
+    //seleciono o botao com o atributo e id chamo a function onclick ativa o evento de selecionar o video e dar pause
+    document.querySelector(`[wm-pause=${id}]`).onclick = (e) => video.pause();
+
+    setInterval(() => {
+      //Achar a porcentagem do video = tempo atual / duracao * 100 para %
+      const percentual = (video.currentTime / video.duration) * 100;
+      //Selecionando a div para receber o valor
+      const valorDiv = document.querySelector(`[wm-progresso=${id}] > div`);
+      //mostrar o progesso na largura de vermelho como definido no style
+      valorDiv.style.width = `${percentual}%`;
+      //mostrando os valores em porcentagem em uma casa decimal
+      valorDiv.innerHTML = `${percentual.toFixed(1)}%`;
+      //de qnt em qnt tempo vai chamar a funcao a cada 500 milisigundo
+    }, 500);
+  }
+
+  configurarVideo("meuVideo");
+</script>
